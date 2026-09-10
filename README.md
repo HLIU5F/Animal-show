@@ -11,7 +11,7 @@
 
 📸 效果展示
 
-![Cute Animals Showcase](images/animals/showcase.png)
+![Cute Animals Showcase](image/showcase.png)
 
 🛠️ 技术栈
 
