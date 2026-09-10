@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ animal.name }} - 详情页</title>
+    <!-- 引入 Bootstrap (保持风格一致) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* 沿用你之前的暖米色背景 */
+        body { background-color: #fdfbf7; }
+        .card-img-top { height: 300px; object-fit: cover; }
+        .comment-box { border-bottom: 1px solid #eee; padding: 10px 0; }
+        .comment-user { font-weight: bold; color: #555; }
+        .comment-time { font-size: 0.8em; color: #999; margin-left: 10px; }
+    </style>
+</head>
+<body>
+
+<div class="container mt-5 mb-5">
+    <!-- 1. 动物详情卡片 -->
+    <div class="card shadow-sm">
+        <!-- 假设你的图片字段叫 image，名字字段叫 name -->
+        <img src="{{ animal.image.url }}" class="card-img-top" alt="{{ animal.name }}">
+        <div class="card-body">
+            <h2 class="card-title">{{ animal.name }}</h2>
+            <p class="card-text lead">{{ animal.description }}</p>
+        </div>
+    </div>
+
+    <hr class="my-5">
+
+    <!-- 2. 评论区部分 -->
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h3>网友评论 ({{ animal.comments.count }})</h3>
+
+            <!-- 评论列表循环 -->
+            {% for comment in animal.comments.all %}
+                <div class="comment-box">
+                    <span class="comment-user">{{ comment.user.username }}</span>
+                    <span class="comment-time">{{ comment.created_at|date:"Y-m-d H:i" }}</span>
+                    <p class="mt-2">{{ comment.content }}</p>
+                </div>
+            {% empty %}
+                <p class="text-muted">暂无评论，快来抢沙发！</p>
+            {% endfor %}
+
+            <!-- 发表评论表单 -->
+            <div class="mt-4 p-3 bg-white rounded shadow-sm">
+                <h5>发表评论</h5>
+                <form method="post">
+                    {% csrf_token %} <!-- Django 安全令牌，必须有 -->
+                    <div class="mb-3">
+                        <textarea class="form-control" name="content" rows="3" placeholder="说点什么吧..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">提交评论</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

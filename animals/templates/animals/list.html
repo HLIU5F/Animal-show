@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>动物列表</title>
+    <style>
+        /* 1. 全局样式 */
+        body {
+            background-color: #568db9; /* 蓝色背景 */
+            font-family: "Microsoft YaHei", sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        /* 2. 容器样式 */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            color: white; /* 标题设为白色，在蓝色背景上更清晰 */
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        /* 3. 网格布局核心代码 */
+        .animal-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* 3列 */
+            gap: 20px;
+        }
+
+        /* 4. 卡片样式优化 */
+        .card {
+            background: rgb(244, 244, 248);
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.2s; /* 增加一点悬停动画效果 */
+        }
+
+        .card:hover {
+            transform: translateY(-5px); /* 鼠标放上去微微上浮 */
+        }
+
+        /* 5. 图片样式 */
+        .card-img-top {
+            width: 100%;
+            height: 250px; /* 稍微调低一点高度，看起来更协调 */
+            object-fit: cover;
+        }
+
+        .card-body {
+            padding: 15px;
+        }
+
+        /* 6. 字体大小调整 */
+        .card-title {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .card-text {
+            font-size: 0.9rem;
+            line-height: 1.5;
+            color: #555;
+        }
+
+        /* 7. 响应式布局 */
+        @media (max-width: 768px) {
+            .animal-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        @media (max-width: 480px) {
+            .animal-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>可爱的小伙伴们</h1>
+
+    <!-- 这里是循环开始 -->
+    <div class="animal-grid">
+        {% for animal in animals %}
+            <!-- 链接包裹整个卡片 -->
+            <!-- 修改后的代码 -->
+<a href="{% url 'animals:animal_detail' animal.id %}" style="text-decoration: none; color: inherit;">
+                <div class="card">
+                    <!-- 图片部分 -->
+                    {% if animal.image %}
+                        <img src="{{ animal.image.url }}" class="card-img-top" alt="{{ animal.name }}">
+                    {% else %}
+                        <!-- 如果没有图片，显示一张默认图或占位符 -->
+                        <div style="height: 250px; background: #eee; display:flex; align-items:center; justify-content:center; color:#999;">暂无图片</div>
+                    {% endif %}
+
+                    <!-- 文字内容部分 -->
+                    <div class="card-body">
+                        <h5 class="card-title">{{ animal.name }}</h5>
+                        <p class="card-text">{{ animal.description }}</p>
+                    </div>
+                </div>
+            </a>
+        {% endfor %}
+    </div>
+</div>
+
+</body>
+</html>

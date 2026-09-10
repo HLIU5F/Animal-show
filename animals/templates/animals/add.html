@@ -1,0 +1,29 @@
+{% extends 'animals/base.html' %}
+
+{% block content %}
+<h2>添加新动物</h2>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="mb-3">
+        <label>名字</label>
+        <input type="text" name="name" class="form-control" required>
+    </div>
+    <div class="mb-3">
+        <label>类别</label>
+        <select name="category" class="form-control" required>
+            {% for c in categories %}
+                <option value="{{ c.id }}">{{ c.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="mb-3">
+        <label>图片</label>
+        <input type="file" name="image" class="form-control">
+    </div>
+    <div class="mb-3">
+        <label>描述</label>
+        <textarea name="description" class="form-control" required></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">保存</button>
+</form>
+{% endblock %}
